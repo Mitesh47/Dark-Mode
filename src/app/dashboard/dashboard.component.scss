@@ -1,0 +1,77 @@
+mat-toolbar{
+  background-color: #004a9f;
+  color: white;
+}
+
+mat-sidenav{
+  width: 200px;
+  margin: 16px;
+  border-right: none;
+  background-color: #002b5c;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.content{
+  height: calc(100vh - 98px);
+  margin: 16px;
+  margin-left: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 2rem;
+  border-radius: 10px;
+}
+
+mat-sidenav-content{
+  height: calc(100vh - 65px);
+}
+
+.mat-mdc-button.mat-unthemed {
+  --mdc-text-button-label-text-color: #ffffff;
+}
+
+.menu-button{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1rem;
+
+  mat-icon{
+    margin-right: 8px;
+  }
+}
+
+.avatar{
+  width: 5rem;
+  border-radius: 5rem;
+}
+
+.name{
+  margin: 0;
+  margin-top: 8px;
+  font-weight: normal;
+}
+
+.designation{
+  margin-top: 2px;
+  font-size: 0.7rem;
+  color: lightgrey;
+}
+
+.mat-divider {
+    border-top-color: rgba(224, 221, 221, 0.12);
+    margin: 1rem;
+}
+
+.drakModeBtn{
+  text-align: end;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
