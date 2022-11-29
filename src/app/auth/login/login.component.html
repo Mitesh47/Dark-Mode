@@ -1,0 +1,36 @@
+<div class="main-div">
+  <mat-card class="mat-app-background mat-elevation-z8">
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-content>
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          placeholder="Email"
+          [(ngModel)]="email"
+          MatFormFieldControl="email"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          type="password"
+          matInput
+          placeholder="Password"
+          [(ngModel)]="password"
+          MatFormFieldControl="password"
+        />
+      </mat-form-field>
+
+      <div class="button">
+        <button type="submit" mat-button (click)="OnLogIn()">Login</button>
+      </div>
+      <span class="mt-3"
+        ><i
+          >New to our platform , then
+          <a routerLink="/auth/signup">Sign Up</a></i
+        ></span
+      >
+    </mat-card-content>
+  </mat-card>
+</div>

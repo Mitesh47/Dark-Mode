@@ -1,0 +1,61 @@
+<div class="main-div">
+  <mat-card class="mat-app-background mat-elevation-z8">
+    <mat-card-title>Sign Up</mat-card-title>
+    <mat-card-content>
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          placeholder="Username"
+          [(ngModel)]="username"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          placeholder="Mobile"
+          [(ngModel)]="mobile"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          type="email"
+          matInput
+          placeholder="Email"
+          [(ngModel)]="email"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          type="password"
+          matInput
+          placeholder="Password"
+          [(ngModel)]="password"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          type="password"
+          matInput
+          placeholder="Confirm Password"
+          [(ngModel)]="confirmPassword"
+          required
+        />
+      </mat-form-field>
+
+      <div class="button">
+        <button type="submit" mat-button (click)="OnSignUp()">Sign Up</button>
+      </div>
+      <span class="mt-3"
+        ><i
+          >Already registered , then <a routerLink="/auth/login">Login</a></i
+        ></span
+      >
+    </mat-card-content>
+  </mat-card>
+</div>

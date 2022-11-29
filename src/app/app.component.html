@@ -1,1 +1,88 @@
-<router-outlet></router-outlet>
+<mat-toolbar>
+  <button
+    mat-icon-button
+    (click)="sidenav.toggle()"
+    *ngIf="_AuthService.currentUser$ | async as user"
+  >
+    <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
+    <mat-icon *ngIf="sidenav.opened">close</mat-icon>
+  </button>
+
+  Demo
+
+  <span class="example-spacer"></span>
+
+  <mat-slide-toggle class="me-2" [(ngModel)]="isDark"></mat-slide-toggle>
+
+  <ng-container
+    *ngIf="_AuthService.currentUser$ | async as user; else LogInButton"
+  >
+    <img
+      width="30"
+      height="30"
+      class="profile-image-toolbar me-2"
+      [src]="user.photoURL ?? 'assets/placeholder-image.jpg'"
+    />
+
+    {{ user.displayName }}
+
+    <button
+      class="ms-2"
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      aria-label="Example icon-button with a menu"
+    >
+      <mat-icon>expand_more</mat-icon>
+    </button>
+  </ng-container>
+
+  <ng-template #LogInButton>
+    <button mat-icon-button routerLink="/auth/login" matTooltip="Login">
+      <mat-icon>person</mat-icon>
+    </button>
+  </ng-template>
+</mat-toolbar>
+
+<mat-sidenav-container class="theme-dark mat-app-background">
+  <mat-sidenav #sidenav="matSidenav" mode="over">
+    <ng-container *ngIf="_AuthService.currentUser$ | async as user">
+      <img
+        class="avatar"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRqRyIiwYCq4s-fZi1zdmyfSuIPUvg9EyZ_Q&usqp=CAU"
+        alt="avatar"
+      />
+      <h4 class="name">{{ user.displayName }}</h4>
+      <p class="email">{{ user.email }}</p>
+    </ng-container>
+
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button" routerLink="/dashboard">
+      <mat-icon>home</mat-icon>
+      <span>Home</span>
+    </button>
+
+    <button mat-button class="menu-button" routerLink="/chat">
+      <mat-icon>chat</mat-icon>
+      <span>Chat</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button">
+      <mat-icon>help</mat-icon>
+      <span>Help</span>
+    </button>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-progress-bar
+      [mode]="'indeterminate'"
+      *ngIf="loading$ | async"
+    ></mat-progress-bar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="OnLogOut()">Logout</button>
+  <button mat-menu-item routerLink="/profile">Profile</button>
+</mat-menu>

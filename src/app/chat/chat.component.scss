@@ -1,0 +1,29 @@
+.main {
+  display: flex;
+  height: calc(100vh - 70px);
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.chat-list {
+  width: 40%;
+  margin: 16px;
+  background: #c5cae9;
+  border-radius: 16px;
+}
+
+.chat-message {
+  width: 60%;
+  margin: 16px;
+  border-radius: 16px;
+}
+
+.example-form-field {
+  margin-top: 2rem;
+  width: 100%;
+  background: #c5cae9;
+}
+
+.search-input {
+  margin: 24px;
+}
