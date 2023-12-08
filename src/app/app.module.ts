@@ -10,15 +10,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-import { FormsModule } from "@angular/forms";
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './auth/login/login.component';
-import { SignupComponent } from './auth/signup/signup.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatCardModule } from "@angular/material/card";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { getStorage, provideStorage } from '@angular/fire/storage';
@@ -29,9 +28,7 @@ import { ConfirmationDialogComponent } from './Commom/confirmation-dialog/confir
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NetworkInterceptor } from './network.interceptor';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { ChatComponent } from './chat/chat.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { ProfileComponent } from './profile/profile.component';
 import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
@@ -39,10 +36,7 @@ import { MatMenuModule } from '@angular/material/menu';
     AppComponent,
     DashboardComponent,
     LoginComponent,
-    SignupComponent,
     ConfirmationDialogComponent,
-    ChatComponent,
-    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -64,10 +58,10 @@ import { MatMenuModule } from '@angular/material/menu';
     provideStorage(() => getStorage()),
     provideFirestore(() => getFirestore()),
     ToastrModule.forRoot({
-      progressBar:true,
+      progressBar: true,
       progressAnimation: 'increasing',
       tapToDismiss: true,
-      timeOut:3000,
+      timeOut: 3000,
       positionClass: 'toast-top-center',
     }),
     MatDialogModule,
@@ -76,11 +70,13 @@ import { MatMenuModule } from '@angular/material/menu';
     MatAutocompleteModule,
     MatMenuModule,
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: NetworkInterceptor,
-    multi: true
-  }],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: NetworkInterceptor,
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

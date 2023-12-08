@@ -1,47 +1,49 @@
-<mat-toolbar>
-  <button
-    mat-icon-button
-    (click)="sidenav.toggle()"
-    *ngIf="_AuthService.currentUser$ | async as user"
-  >
-    <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
-    <mat-icon *ngIf="sidenav.opened">close</mat-icon>
-  </button>
-
-  Demo
-
-  <span class="example-spacer"></span>
-
-  <mat-slide-toggle class="me-2" [(ngModel)]="isDark"></mat-slide-toggle>
-
-  <ng-container
-    *ngIf="_AuthService.currentUser$ | async as user; else LogInButton"
-  >
-    <img
-      width="30"
-      height="30"
-      class="profile-image-toolbar me-2"
-      [src]="user.photoURL ?? 'assets/placeholder-image.jpg'"
-    />
-
-    {{ user.displayName }}
-
+<ng-container *ngIf="!hideCommonView">
+  <mat-toolbar>
     <button
-      class="ms-2"
       mat-icon-button
-      [matMenuTriggerFor]="menu"
-      aria-label="Example icon-button with a menu"
+      (click)="sidenav.toggle()"
+      *ngIf="_AuthService.currentUser$ | async as user"
     >
-      <mat-icon>expand_more</mat-icon>
+      <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
+      <mat-icon *ngIf="sidenav.opened">close</mat-icon>
     </button>
-  </ng-container>
 
-  <ng-template #LogInButton>
-    <button mat-icon-button routerLink="/auth/login" matTooltip="Login">
-      <mat-icon>person</mat-icon>
-    </button>
-  </ng-template>
-</mat-toolbar>
+    Demo
+
+    <span class="example-spacer"></span>
+
+    <mat-slide-toggle class="me-2" [(ngModel)]="isDark"></mat-slide-toggle>
+
+    <ng-container
+      *ngIf="_AuthService.currentUser$ | async as user; else LogInButton"
+    >
+      <img
+        width="30"
+        height="30"
+        class="profile-image-toolbar me-2"
+        [src]="user.photoURL ?? 'assets/placeholder-image.jpg'"
+      />
+
+      {{ user.displayName }}
+
+      <button
+        class="ms-2"
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+      >
+        <mat-icon>expand_more</mat-icon>
+      </button>
+    </ng-container>
+
+    <ng-template #LogInButton>
+      <button mat-icon-button routerLink="/auth/login" matTooltip="Login">
+        <mat-icon>person</mat-icon>
+      </button>
+    </ng-template>
+  </mat-toolbar>
+</ng-container>
 
 <mat-sidenav-container class="theme-dark mat-app-background">
   <mat-sidenav #sidenav="matSidenav" mode="over">
@@ -58,13 +60,8 @@
     <mat-divider></mat-divider>
 
     <button mat-button class="menu-button" routerLink="/dashboard">
-      <mat-icon>home</mat-icon>
-      <span>Home</span>
-    </button>
-
-    <button mat-button class="menu-button" routerLink="/chat">
-      <mat-icon>chat</mat-icon>
-      <span>Chat</span>
+      <mat-icon>dashboard</mat-icon>
+      <span>Dashboard</span>
     </button>
 
     <mat-divider></mat-divider>
@@ -83,6 +80,6 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 <mat-menu #menu="matMenu">
-  <button mat-menu-item (click)="OnLogOut()">Logout</button>
   <button mat-menu-item routerLink="/profile">Profile</button>
+  <button mat-menu-item (click)="OnLogOut()">Logout</button>
 </mat-menu>
