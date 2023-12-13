@@ -1,12 +1,9 @@
-h1,h2,h3,h4,h5,h6{
-  font-family: 'Montserrat', sans-serif;
-}
-
 .main{
-  height: calc(100vh - 65px);
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #ffffff;
 }
 
 .container{
@@ -53,7 +50,7 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .container button.hidden{
-    background-color: transparent;
+    // background-color: transparent;
     border-color: #fff;
 }
 

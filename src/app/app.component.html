@@ -9,7 +9,7 @@
       <mat-icon *ngIf="sidenav.opened">close</mat-icon>
     </button>
 
-    Demo
+    <h2 class="m-0">Demo</h2>
 
     <span class="example-spacer"></span>
 
@@ -25,7 +25,7 @@
         [src]="user.photoURL ?? 'assets/placeholder-image.jpg'"
       />
 
-      {{ user.displayName }}
+      <h3 class="m-0">{{ user.displayName }}</h3>
 
       <button
         class="ms-2"
@@ -53,15 +53,40 @@
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRqRyIiwYCq4s-fZi1zdmyfSuIPUvg9EyZ_Q&usqp=CAU"
         alt="avatar"
       />
-      <h4 class="name">{{ user.displayName }}</h4>
+      <p class="name">{{ user.displayName }}</p>
       <p class="email">{{ user.email }}</p>
     </ng-container>
 
     <mat-divider></mat-divider>
 
-    <button mat-button class="menu-button" routerLink="/dashboard">
+    <button
+      mat-button
+      class="menu-button"
+      routerLinkActive="route-active"
+      routerLink="/dashboard"
+    >
       <mat-icon>dashboard</mat-icon>
       <span>Dashboard</span>
+    </button>
+
+    <button
+      mat-button
+      class="menu-button"
+      routerLinkActive="route-active"
+      routerLink="/test1"
+    >
+      <mat-icon>dashboard</mat-icon>
+      <span>Test 1</span>
+    </button>
+
+    <button
+      mat-button
+      class="menu-button"
+      routerLinkActive="route-active"
+      routerLink="/test2"
+    >
+      <mat-icon>dashboard</mat-icon>
+      <span>Test 2</span>
     </button>
 
     <mat-divider></mat-divider>
