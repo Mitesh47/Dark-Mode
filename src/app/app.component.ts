@@ -1,10 +1,15 @@
 import { Component, HostBinding, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthenticationService } from './services/Authentication/authentication.service';
 import { DialogConfirmationService } from './services/Dialog/dialog-confirmation.service';
 import { LoadingService } from './services/Loading/loading.service';
+import { SessionStorageService } from './services/SessionStorage/session-storage.service';
+import { SESSION_KEYS } from './models/constants';
+import { GlobalService } from './services/Global/global.service';
+import { environment } from 'src/environments/environment';
 
+const AVOID_PREFIX_URLS: string[] = ['/', '/auth/login'];
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,24 +20,32 @@ export class AppComponent {
     private _Router: Router,
     public _AuthService: AuthenticationService,
     private _DialogService: DialogConfirmationService,
-    private loader: LoadingService
-  ) {
-    this._Router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        // Check if the current route is the login page
-        this.hideCommonView = event.url === '/auth/login';
-      }
-    });
-  }
+    private loader: LoadingService,
+    private _SessionStorage: SessionStorageService,
+    public _GlobalService: GlobalService
+  ) {}
 
   ngOnInit(): void {
-    console.log(this._AuthService.currentUser$);
+    const userInfo = {
+      id: this._SessionStorage.getItem(SESSION_KEYS.UID),
+      name: this._SessionStorage.getItem(SESSION_KEYS.NAME),
+      username: this._SessionStorage.getItem(SESSION_KEYS.USER_NAME),
+      photo: this._SessionStorage.getItem(SESSION_KEYS.USER_PHOTO),
+    };
+    this._GlobalService.userDetailsSubject$.next(userInfo);
   }
 
   @ViewChild(MatSidenav) matsidenav!: MatSidenav;
+  rootUrl: string = environment.API;
   public isDark: boolean = false;
-  hideCommonView: boolean = false;
-  loading$ = this.loader.loading$;
+  username: string = '';
+  name: string = '';
+  photo: string = '';
+
+  get avoidPrefix() {
+    const currentUrl = this._Router.url?.split('?')[0];
+    return !!AVOID_PREFIX_URLS.find((el) => el === currentUrl);
+  }
 
   @HostBinding('class') get ThemeMode() {
     return this.isDark ? 'theme-dark' : 'theme-light';
@@ -48,9 +61,11 @@ export class AppComponent {
       })
       .subscribe((res: any) => {
         if (res === true) {
-          this._AuthService.logout().subscribe((res: any) => {
-            this._Router.navigate(['/auth/login']);
-          });
+          sessionStorage.clear();
+          this._Router.navigate(['/auth/login']);
+          setTimeout(() => {
+            location.reload();
+          }, 0);
         }
       });
   }

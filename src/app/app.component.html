@@ -1,10 +1,6 @@
-<ng-container *ngIf="!hideCommonView">
+<ng-container *ngIf="!avoidPrefix">
   <mat-toolbar>
-    <button
-      mat-icon-button
-      (click)="sidenav.toggle()"
-      *ngIf="_AuthService.currentUser$ | async as user"
-    >
+    <button mat-icon-button (click)="sidenav.toggle()">
       <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
       <mat-icon *ngIf="sidenav.opened">close</mat-icon>
     </button>
@@ -13,22 +9,28 @@
 
     <span class="example-spacer"></span>
 
-    <mat-slide-toggle class="me-2" [(ngModel)]="isDark"></mat-slide-toggle>
+    <!-- <mat-slide-toggle class="me-2" [(ngModel)]="isDark"></mat-slide-toggle> -->
 
-    <ng-container
-      *ngIf="_AuthService.currentUser$ | async as user; else LogInButton"
-    >
+    <ng-container>
+      <span class="m-0">{{ _GlobalService.userDetails.name }}</span>
+
       <img
         width="30"
         height="30"
-        class="profile-image-toolbar me-2"
-        [src]="user.photoURL ?? 'assets/placeholder-image.jpg'"
+        class="profile-image-toolbar ms-2"
+        [src]="
+          _GlobalService.userDetails.photo
+            ? rootUrl +
+              '/user/' +
+              _GlobalService.userDetails.id +
+              '/' +
+              _GlobalService.userDetails.photo
+            : 'assets/placeholder-image.jpg'
+        "
       />
 
-      <h3 class="m-0">{{ user.displayName }}</h3>
-
       <button
-        class="ms-2"
+        class=""
         mat-icon-button
         [matMenuTriggerFor]="menu"
         aria-label="Example icon-button with a menu"
@@ -47,14 +49,19 @@
 
 <mat-sidenav-container class="theme-dark mat-app-background">
   <mat-sidenav #sidenav="matSidenav" mode="over">
-    <ng-container *ngIf="_AuthService.currentUser$ | async as user">
+    <ng-container>
       <img
         class="avatar"
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRqRyIiwYCq4s-fZi1zdmyfSuIPUvg9EyZ_Q&usqp=CAU"
+        [src]="
+          rootUrl +
+          '/user/' +
+          _GlobalService.userDetails.id +
+          '/' +
+          _GlobalService.userDetails.photo
+        "
         alt="avatar"
       />
-      <p class="name">{{ user.displayName }}</p>
-      <p class="email">{{ user.email }}</p>
+      <p class="name">{{ _GlobalService.userDetails.username }}</p>
     </ng-container>
 
     <mat-divider></mat-divider>
@@ -69,26 +76,6 @@
       <span>Dashboard</span>
     </button>
 
-    <button
-      mat-button
-      class="menu-button"
-      routerLinkActive="route-active"
-      routerLink="/test1"
-    >
-      <mat-icon>dashboard</mat-icon>
-      <span>Test 1</span>
-    </button>
-
-    <button
-      mat-button
-      class="menu-button"
-      routerLinkActive="route-active"
-      routerLink="/test2"
-    >
-      <mat-icon>dashboard</mat-icon>
-      <span>Test 2</span>
-    </button>
-
     <mat-divider></mat-divider>
 
     <button mat-button class="menu-button">
@@ -97,10 +84,6 @@
     </button>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-progress-bar
-      [mode]="'indeterminate'"
-      *ngIf="loading$ | async"
-    ></mat-progress-bar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

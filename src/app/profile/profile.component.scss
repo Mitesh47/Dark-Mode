@@ -1,0 +1,19 @@
+
+.profile-update-container {
+  height: calc(100vh - 64px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.example-card{
+  min-width: 600px;
+}
+
+mat-card-header{
+  width: 100%;
+
+  mat-card-title{
+    width: 100%;
+  }
+}

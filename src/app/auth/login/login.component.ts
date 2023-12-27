@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from '../../services/Authentication/authentication.service';
+import { UserLogin } from 'src/app/models/user';
+import { SessionStorageService } from 'src/app/services/SessionStorage/session-storage.service';
+import { SESSION_KEYS } from 'src/app/models/constants';
 
 @Component({
   selector: 'app-login',
@@ -12,10 +15,11 @@ export class LoginComponent {
   constructor(
     private _AuthService: AuthenticationService,
     private _Router: Router,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private _SessionStorage: SessionStorageService
   ) {}
 
-  email: string = '';
+  username: string = '';
   password: string = '';
   name: string = '';
 
@@ -28,8 +32,8 @@ export class LoginComponent {
   validateForm(): boolean {
     var mess: string = '';
 
-    if (!this.email) {
-      mess += 'Email is required . ';
+    if (!this.username) {
+      mess += 'Username is required . ';
     }
 
     if (!this.password) {
@@ -45,34 +49,39 @@ export class LoginComponent {
 
   OnLogIn() {
     if (!this.validateForm()) return;
-    this._AuthService.login(this.email, this.password).subscribe((res: any) => {
+    const tempModal = new UserLogin();
+    tempModal.username = this.username;
+    tempModal.password = this.password;
+    this._AuthService.login(tempModal).subscribe((res: any) => {
       if (res) {
-        this.toast.success('Logged in Successfully');
+        const { Table } = res;
+        this.toast.success(res.message);
+        sessionStorage.setItem('token', res.token);
+        this._SessionStorage.setItem(SESSION_KEYS.UID, `${Table?.id || ''}`);
+        this._SessionStorage.setItem(
+          SESSION_KEYS.USER_NAME,
+          `${Table?.username || ''}`
+        );
+        this._SessionStorage.setItem(SESSION_KEYS.NAME, `${Table?.name || ''}`);
+        this._SessionStorage.setItem(
+          SESSION_KEYS.USER_PHOTO,
+          `${Table?.photo || ''}`
+        );
         this.clearItems();
         this._Router.navigate(['/dashboard']);
       } else {
-        this.toast.error(res.error.errors.message);
+        this.toast.error(res.message);
       }
     });
   }
 
   OnSignUp() {
     if (!this.validateForm()) return;
-    this._AuthService
-      .signup(this.name, this.email, this.password)
-      .subscribe((res: any) => {
-        if (res) {
-          this.toast.success('Signed up Successfully');
-          this.clearItems();
-        } else {
-          this.toast.error(res.error.errors.message);
-        }
-      });
   }
 
   clearItems() {
     this.name = '';
-    this.email = '';
+    this.username = '';
     this.password = '';
   }
 }

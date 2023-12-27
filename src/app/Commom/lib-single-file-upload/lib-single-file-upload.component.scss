@@ -1,0 +1,31 @@
+.file-upload-container {
+  margin-top: 10px;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.file-upload-container .file-upload {
+  font-size: 70px;
+  color: var(--color-primary);
+}
+
+/* ::ng-deep .file-upload-container .mat-icon {
+  font-size: 70px;
+  color: var(--color-primary);
+  height: 0;
+  width: 0;
+} */
+
+.file-upload-container .image-container img {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary);
+}
+
+.file-upload-container .image-container .close-icon {
+  position: absolute;
+  color: var(--color-red);
+}

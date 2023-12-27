@@ -1,0 +1,153 @@
+<div class="single-file-upload-container">
+  <label *ngIf="label && isRequired" class="d-flex justify-content-center">{{
+    label
+  }}</label>
+  <label *ngIf="label && !isRequired" class="d-flex justify-content-center">{{
+    label
+  }}</label>
+  <div
+    class="file-upload-container"
+    style="border-radius: 10px; border: 1px solid black"
+  >
+    <mat-icon
+      *ngIf="!currentFile.FileName"
+      [inline]="true"
+      (click)="onClickUploadFile()"
+      class="file-upload p-3"
+      >cloud_upload</mat-icon
+    >
+    <input
+      class="form-control d-none"
+      type="file"
+      [multiple]="false"
+      #fileInput
+      (change)="onFileChange($event)"
+      id="formFile"
+    />
+    <div *ngIf="currentFile.FileName" class="image-container position-relative">
+      <ng-container *ngIf="currentFile.FID">
+        <img
+          *ngIf="currentFile.FileType === FILE_TYPE.IMAGE"
+          [src]="
+            rootURL + FilePath + currentFile.FileName | sanitizer : 'image'
+          "
+          (click)="
+            globalService.openDocumentInNewTab(
+              rootURL + FilePath + currentFile.FileName
+            )
+          "
+          [alt]="currentFile.FileName"
+        />
+      </ng-container>
+      <img
+        *ngIf="currentFile.FileType === FILE_TYPE.PDF"
+        src="global-assets/file-icons/pdf.png"
+        class="--cursor-pointer"
+        (click)="
+          globalService.openDocumentInNewTab(
+            rootURL + FilePath + currentFile.FileName
+          )
+        "
+        [alt]="currentFile.FileName"
+      />
+      <img
+        *ngIf="currentFile.FileType === FILE_TYPE.EXCEL"
+        src="global-assets/file-icons/csv.png"
+        class="--cursor-pointer"
+        (click)="
+          globalService.openDocumentInNewTab(
+            rootURL + FilePath + currentFile.FileName
+          )
+        "
+        [alt]="currentFile.FileName"
+      />
+      <img
+        *ngIf="currentFile.FileType === FILE_TYPE.VIDEO"
+        src="global-assets/file-icons/mp4.png"
+        class="--cursor-pointer"
+        (click)="
+          globalService.openDocumentInNewTab(
+            rootURL + FilePath + currentFile.FileName
+          )
+        "
+        [alt]="currentFile.FileName"
+      />
+      <img
+        *ngIf="currentFile.FileType === FILE_TYPE.AUDIO"
+        src="global-assets/file-icons/mp3.png"
+        class="--cursor-pointer"
+        (click)="
+          globalService.openDocumentInNewTab(
+            rootURL + FilePath + currentFile.FileName
+          )
+        "
+        [alt]="currentFile.FileName"
+      />
+      <img
+        *ngIf="currentFile.FileType === FILE_TYPE.DOC"
+        src="global-assets/file-icons/doc.png"
+        class="--cursor-pointer"
+        (click)="
+          globalService.openDocumentInNewTab(
+            rootURL + FilePath + currentFile.FileName
+          )
+        "
+        [alt]="currentFile.FileName"
+      />
+      <img
+        *ngIf="currentFile.FileType === FILE_TYPE.TEXT"
+        src="global-assets/file-icons/txt.png"
+        class="--cursor-pointer"
+        (click)="
+          globalService.openDocumentInNewTab(
+            rootURL + FilePath + currentFile.FileName
+          )
+        "
+        [alt]="currentFile.FileName"
+      />
+      <ng-container *ngIf="!currentFile.FID">
+        <img
+          *ngIf="currentFile.FileType === FILE_TYPE.IMAGE"
+          [src]="currentFile.FileName"
+        />
+        <img
+          *ngIf="currentFile.FileType === FILE_TYPE.PDF"
+          src="global-assets/file-icons/pdf.png"
+          class="--cursor-pointer"
+          (click)="globalService.openDocumentInNewTab(currentFile.BlobFile)"
+        />
+        <img
+          *ngIf="currentFile.FileType === FILE_TYPE.EXCEL"
+          src="global-assets/file-icons/csv.png"
+          class="--cursor-pointer"
+          (click)="globalService.openDocumentInNewTab(currentFile.BlobFile)"
+        />
+        <img
+          *ngIf="currentFile.FileType === FILE_TYPE.VIDEO"
+          src="global-assets/file-icons/mp4.png"
+          class="--cursor-pointer"
+          (click)="globalService.openDocumentInNewTab(currentFile.BlobFile)"
+        />
+        <img
+          *ngIf="currentFile.FileType === FILE_TYPE.AUDIO"
+          src="global-assets/file-icons/mp3.png"
+          class="--cursor-pointer"
+          (click)="globalService.openDocumentInNewTab(currentFile.BlobFile)"
+        />
+        <img
+          *ngIf="currentFile.FileType === FILE_TYPE.DOC"
+          src="global-assets/file-icons/doc.png"
+          class="--cursor-pointer"
+          (click)="globalService.openDocumentInNewTab(currentFile.BlobFile)"
+        />
+        <img
+          *ngIf="currentFile.FileType === FILE_TYPE.TEXT"
+          src="global-assets/file-icons/txt.png"
+          class="--cursor-pointer"
+          (click)="globalService.openDocumentInNewTab(currentFile.BlobFile)"
+        />
+      </ng-container>
+      <mat-icon class="close-icon" (click)="onDelete()">close</mat-icon>
+    </div>
+  </div>
+</div>

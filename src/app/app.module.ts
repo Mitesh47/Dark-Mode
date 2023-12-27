@@ -17,11 +17,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { environment } from '../environments/environment';
-import { provideAuth, getAuth } from '@angular/fire/auth';
-import { getStorage, provideStorage } from '@angular/fire/storage';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { ToastrModule } from 'ngx-toastr';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './Commom/confirmation-dialog/confirmation-dialog.component';
@@ -30,6 +25,10 @@ import { NetworkInterceptor } from './network.interceptor';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatMenuModule } from '@angular/material/menu';
+import { ProfileComponent } from './profile/profile.component';
+import { LibSingleFileUploadComponent } from './Commom/lib-single-file-upload/lib-single-file-upload.component';
+import { SantizerPipe } from './pipes/sanitizer.pipe';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -37,6 +36,9 @@ import { MatMenuModule } from '@angular/material/menu';
     DashboardComponent,
     LoginComponent,
     ConfirmationDialogComponent,
+    ProfileComponent,
+    LibSingleFileUploadComponent,
+    SantizerPipe,
   ],
   imports: [
     BrowserModule,
@@ -53,10 +55,6 @@ import { MatMenuModule } from '@angular/material/menu';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideStorage(() => getStorage()),
-    provideFirestore(() => getFirestore()),
     ToastrModule.forRoot({
       progressBar: true,
       progressAnimation: 'increasing',
@@ -71,6 +69,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatMenuModule,
   ],
   providers: [
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: NetworkInterceptor,
