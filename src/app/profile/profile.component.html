@@ -41,25 +41,35 @@
           </mat-form-field>
         </form>
         <form class="example-form">
-          <mat-form-field
-            style="width: 100%"
-            class="example-full-width"
-            appearance="outline"
-          >
-            <mat-label>Password</mat-label>
+          <mat-form-field class="example-full-width" style="width: 100%">
+            <mat-label>Choose a date</mat-label>
             <input
-              type="password"
               matInput
-              name="password"
-              [(ngModel)]="password"
+              [matDatepicker]="picker"
+              name="dob"
+              [(ngModel)]="dob"
             />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker></mat-datepicker>
           </mat-form-field>
         </form>
+        <div class="d-flex justify-content-center align-items-center">
+          <label>Gender: </label>
+          <mat-radio-group [(ngModel)]="gender">
+            <mat-radio-button value="male">Male</mat-radio-button>
+            <mat-radio-button value="female">Female</mat-radio-button>
+            <mat-radio-button value="other">Other</mat-radio-button>
+          </mat-radio-group>
+        </div>
       </div>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
+    <mat-card-actions align="end">
+      <button mat-button>Cancel</button>
+      <button mat-button (click)="OnUpdate()">Update</button>
     </mat-card-actions>
   </mat-card>
 </div>

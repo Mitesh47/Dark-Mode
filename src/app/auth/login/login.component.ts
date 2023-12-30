@@ -5,6 +5,7 @@ import { AuthenticationService } from '../../services/Authentication/authenticat
 import { UserLogin } from 'src/app/models/user';
 import { SessionStorageService } from 'src/app/services/SessionStorage/session-storage.service';
 import { SESSION_KEYS } from 'src/app/models/constants';
+import { GlobalService } from 'src/app/services/Global/global.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent {
     private _AuthService: AuthenticationService,
     private _Router: Router,
     private toast: ToastrService,
-    private _SessionStorage: SessionStorageService
+    private _SessionStorage: SessionStorageService,
+    private _GlobalService: GlobalService
   ) {}
 
   username: string = '';
@@ -53,7 +55,7 @@ export class LoginComponent {
     tempModal.username = this.username;
     tempModal.password = this.password;
     this._AuthService.login(tempModal).subscribe((res: any) => {
-      if (res) {
+      if (res.statusCode != 404 && res.statusCode != 400) {
         const { Table } = res;
         this.toast.success(res.message);
         sessionStorage.setItem('token', res.token);
@@ -67,6 +69,13 @@ export class LoginComponent {
           SESSION_KEYS.USER_PHOTO,
           `${Table?.photo || ''}`
         );
+        const userInfo = {
+          id: Table?.id,
+          name: Table?.name,
+          username: Table?.username,
+          photo: Table?.photo,
+        };
+        this._GlobalService.userDetailsSubject$.next(userInfo);
         this.clearItems();
         this._Router.navigate(['/dashboard']);
       } else {

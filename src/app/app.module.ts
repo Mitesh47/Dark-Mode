@@ -29,6 +29,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { LibSingleFileUploadComponent } from './Commom/lib-single-file-upload/lib-single-file-upload.component';
 import { SantizerPipe } from './pipes/sanitizer.pipe';
 import { DatePipe } from '@angular/common';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -67,6 +70,9 @@ import { DatePipe } from '@angular/common';
     MatProgressBarModule,
     MatAutocompleteModule,
     MatMenuModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatRadioModule,
   ],
   providers: [
     DatePipe,
