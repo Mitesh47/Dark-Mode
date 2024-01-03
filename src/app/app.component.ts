@@ -25,7 +25,16 @@ export class AppComponent {
     public _GlobalService: GlobalService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const userInfo = {
+      id: this._SessionStorage.getItem(SESSION_KEYS.UID),
+      name: this._SessionStorage.getItem(SESSION_KEYS.NAME),
+      username: this._SessionStorage.getItem(SESSION_KEYS.USER_NAME),
+      photo: this._SessionStorage.getItem(SESSION_KEYS.USER_PHOTO),
+    };
+
+    this._GlobalService.userDetailsSubject$.next(userInfo);
+  }
 
   @ViewChild(MatSidenav) matsidenav!: MatSidenav;
   rootUrl: string = environment.API;

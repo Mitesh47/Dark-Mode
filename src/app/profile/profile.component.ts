@@ -6,6 +6,9 @@ import { UserService } from '../services/User/user.service';
 import { DatePipe } from '@angular/common';
 import { User } from '../models/user';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { SessionStorageService } from '../services/SessionStorage/session-storage.service';
+import { SESSION_KEYS } from '../models/constants';
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +20,9 @@ export class ProfileComponent implements OnInit {
     public _GlobalService: GlobalService,
     private _UserService: UserService,
     private datePipe: DatePipe,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private _Router: Router,
+    private _SessionStorage: SessionStorageService
   ) {}
 
   ngOnInit(): void {
@@ -71,10 +76,22 @@ export class ProfileComponent implements OnInit {
     tempModal.photo = this.UserPhoto.FileName;
     console.log(tempModal);
 
-    // this._UserService.updateUser(tempModal).subscribe((res: any) => {
-    //   if (res) {
-    //     this.toastr.success(res.message);
-    //   }
-    // });
+    this._UserService.updateUser(tempModal).subscribe((res: any) => {
+      if (res) {
+        const { Table } = res;
+        this.toastr.success(res.message);
+        this._SessionStorage.setItem(SESSION_KEYS.UID, `${Table?.id || ''}`);
+        this._SessionStorage.setItem(
+          SESSION_KEYS.USER_NAME,
+          `${Table?.username || ''}`
+        );
+        this._SessionStorage.setItem(SESSION_KEYS.NAME, `${Table?.name || ''}`);
+        this._SessionStorage.setItem(
+          SESSION_KEYS.USER_PHOTO,
+          `${Table?.photo || ''}`
+        );
+        this._Router.navigate(['/dashboard']);
+      }
+    });
   }
 }

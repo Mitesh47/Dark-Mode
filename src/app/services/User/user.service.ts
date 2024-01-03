@@ -1,12 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { SessionStorageService } from '../SessionStorage/session-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private _Http: HttpClient) {}
+  constructor(
+    private _Http: HttpClient,
+    private _SessionStorage: SessionStorageService
+  ) {}
 
   readonly rootUrl = environment.API;
 
@@ -16,6 +20,11 @@ export class UserService {
 
   getUserByID(id: number) {
     return this._Http.get(`${this.rootUrl}/user/GetUserByID?UserID=${id}`);
+  }
+
+  getAllFriends() {
+    const id = this._SessionStorage.getItem('UID');
+    return this._Http.get(`${this.rootUrl}/user/GetAllFriends?UserID=${id}`);
   }
 
   addUser(body: any) {

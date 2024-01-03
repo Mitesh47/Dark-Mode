@@ -32,6 +32,10 @@ import { DatePipe } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
+import { ChatComponent } from './chat/chat.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: 'http://localhost:3500', options: {} };
 
 @NgModule({
   declarations: [
@@ -42,6 +46,7 @@ import { MatRadioModule } from '@angular/material/radio';
     ProfileComponent,
     LibSingleFileUploadComponent,
     SantizerPipe,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,6 +78,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatDatepickerModule,
     MatNativeDateModule,
     MatRadioModule,
+    SocketIoModule.forRoot(config),
   ],
   providers: [
     DatePipe,

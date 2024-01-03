@@ -75,10 +75,6 @@ mat-sidenav-content {
   margin: 1rem;
 }
 
-.drakModeBtn {
-  text-align: end;
-}
-
 .example-spacer {
   flex: 1 1 auto;
 }
@@ -96,7 +92,7 @@ mat-progress-bar {
 
 .route-active{
   span{
+    color: #ec4646;
     font-weight: 800;
-    text-transform: uppercase;
   }
 }

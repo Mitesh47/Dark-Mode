@@ -8,8 +8,6 @@ import { User } from 'src/app/models/user';
 export class GlobalService {
   constructor() {}
 
-  userDetailsSubject$ = new BehaviorSubject<any>({});
-
   readonly imageRegex = /\.(png|jpg|jpeg|tiff|icon)$/i;
   readonly pdfRegex = /\.(pdf)$/i;
   readonly excelRegex = /\.(xlsx|xls|csv)$/i;
@@ -17,6 +15,8 @@ export class GlobalService {
   readonly audioRegex = /\.(mp3|wav|ogg|flac)$/i;
   readonly docRegex = /\.(doc|docx|DOC|DOCX)$/i;
   readonly textRegex = /\.(txt|TEXT)$/i;
+
+  userDetailsSubject$ = new BehaviorSubject<any>({});
 
   get userDetails(): User {
     return this.userDetailsSubject$.value;
