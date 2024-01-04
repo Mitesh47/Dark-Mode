@@ -16,7 +16,7 @@ export class LoginComponent {
   constructor(
     private _AuthService: AuthenticationService,
     private _Router: Router,
-    private toast: ToastrService,
+    private toastr: ToastrService,
     private _SessionStorage: SessionStorageService,
     private _GlobalService: GlobalService
   ) {}
@@ -43,7 +43,7 @@ export class LoginComponent {
     }
 
     if (mess) {
-      this.toast.error(mess, 'Error');
+      this.toastr.error(mess, 'Error');
       return false;
     }
     return true;
@@ -54,34 +54,40 @@ export class LoginComponent {
     const tempModal = new UserLogin();
     tempModal.username = this.username;
     tempModal.password = this.password;
-    this._AuthService.login(tempModal).subscribe((res: any) => {
-      if (res.statusCode != 404 && res.statusCode != 400) {
-        const { Table } = res;
-        this.toast.success(res.message);
-        sessionStorage.setItem('token', res.token);
-        this._SessionStorage.setItem(SESSION_KEYS.UID, `${Table?.id || ''}`);
-        this._SessionStorage.setItem(
-          SESSION_KEYS.USER_NAME,
-          `${Table?.username || ''}`
-        );
-        this._SessionStorage.setItem(SESSION_KEYS.NAME, `${Table?.name || ''}`);
-        this._SessionStorage.setItem(
-          SESSION_KEYS.USER_PHOTO,
-          `${Table?.photo || ''}`
-        );
-        const userInfo = {
-          id: Table?.id,
-          name: Table?.name,
-          username: Table?.username,
-          photo: Table?.photo,
-        };
-        this._GlobalService.userDetailsSubject$.next(userInfo);
-        this.clearItems();
-        this._Router.navigate(['/dashboard']);
-      } else {
-        this.toast.error(res.message);
+    this._AuthService.login(tempModal).subscribe(
+      (res: any) => {
+        if (res) {
+          const { Table } = res;
+          this.toastr.success(res.message);
+          sessionStorage.setItem('token', res.token);
+          this._SessionStorage.setItem(SESSION_KEYS.UID, `${Table?.id || ''}`);
+          this._SessionStorage.setItem(
+            SESSION_KEYS.USER_NAME,
+            `${Table?.username || ''}`
+          );
+          this._SessionStorage.setItem(
+            SESSION_KEYS.NAME,
+            `${Table?.name || ''}`
+          );
+          this._SessionStorage.setItem(
+            SESSION_KEYS.USER_PHOTO,
+            `${Table?.photo || ''}`
+          );
+          const userInfo = {
+            id: Table?.id,
+            name: Table?.name,
+            username: Table?.username,
+            photo: Table?.photo,
+          };
+          this._GlobalService.userDetailsSubject$.next(userInfo);
+          this.clearItems();
+          this._Router.navigate(['/dashboard']);
+        }
+      },
+      (error: any) => {
+        this.toastr.error('Oops', error.error.message);
       }
-    });
+    );
   }
 
   OnSignUp() {

@@ -1,6 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Observable } from 'rxjs';
-import { NgForm } from '@angular/forms';
 import { User } from '../models/user';
 import { GlobalService } from '../services/Global/global.service';
 import { environment } from 'src/environments/environment';
@@ -14,7 +19,7 @@ import { ChatService } from '../services/Chat/chat.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewChecked {
   constructor(
     public _GlobalService: GlobalService,
     private _UserService: UserService,
@@ -24,13 +29,18 @@ export class ChatComponent implements OnInit {
     this.currentUserID = parseInt(this._SessionStorage.getItem('UID'));
   }
 
-  messages: any[] = [];
+  messageList: any[] = [];
   message: string = '';
 
   ngOnInit() {
     this.getAllFriends();
   }
 
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
+  }
+
+  @ViewChild('chatContainer') private chatContainer!: ElementRef;
   newMessage$!: Observable<string>;
   friendList: User[] = [];
   username: string = '';
@@ -38,6 +48,16 @@ export class ChatComponent implements OnInit {
   chatUser: any = {};
   currentUserID: number = 0;
   selectedFriend: any;
+  searchTerm: string = '';
+
+  scrollToBottom(): void {
+    try {
+      this.chatContainer.nativeElement.scrollTop =
+        this.chatContainer.nativeElement.scrollHeight;
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   getAllFriends() {
     this._UserService.getAllFriends().subscribe((res: any) => {
@@ -51,8 +71,7 @@ export class ChatComponent implements OnInit {
       .getMessages(this.currentUserID, this.chatUser.id)
       .subscribe((res: any) => {
         const { Table } = res;
-        this.messages = Table;
-        console.log(this.messages);
+        this.messageList = Table;
       });
   }
 
@@ -69,7 +88,6 @@ export class ChatComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger;
     if (!this.message) return;
     const tempModal = new Chat();
     tempModal.senderId = this.currentUserID;

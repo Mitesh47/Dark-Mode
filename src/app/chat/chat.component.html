@@ -10,12 +10,15 @@
                   type="text"
                   class="form-control my-3"
                   placeholder="Search..."
+                  [(ngModel)]="searchTerm"
                 />
               </div>
             </div>
           </div>
 
-          <ng-container *ngFor="let friend of friendList">
+          <ng-container
+            *ngFor="let friend of friendList | friendFilter : searchTerm"
+          >
             <a
               style="cursor: pointer"
               [class.friend-active]="friend === selectedFriend"
@@ -135,72 +138,74 @@
             </div>
           </div>
 
-          <div class="position-relative">
-            <div class="chat-messages p-4">
-              <ng-container *ngIf="chatUser.id">
-                <ng-container *ngFor="let message of messages">
+          <div #chatContainer class="position-relative chat-messages p-4">
+            <div>
+              <ng-container *ngFor="let message of messageList">
+                <div
+                  class="chat-message-right pb-4"
+                  *ngIf="message.sender.id === currentUserID"
+                >
                   <div
-                    class="chat-message-right pb-4"
-                    *ngIf="message.sender.id === currentUserID"
+                    class="d-flex flex-column justify-content-center align-items-center"
                   >
-                    <div>
-                      <img
-                        [src]="
-                          message.sender.photo
-                            ? rootUrl +
-                              '/user/' +
-                              message.sender.id +
-                              '/' +
-                              message.sender.photo
-                            : '../../assets/placeholder-image.jpg'
-                        "
-                        class="rounded-circle mr-1"
-                        alt="sender"
-                        width="40"
-                        height="40"
-                      />
-                      <div class="text-muted small text-nowrap mt-2">
-                        {{ message.createdAt | date : "short" }}
-                      </div>
-                    </div>
-                    <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-                      <div class="font-weight-bold mb-1">You</div>
-                      {{ message.content }}
+                    <img
+                      [src]="
+                        message.sender.photo
+                          ? rootUrl +
+                            '/user/' +
+                            message.sender.id +
+                            '/' +
+                            message.sender.photo
+                          : '../../assets/placeholder-image.jpg'
+                      "
+                      class="rounded-circle mr-1"
+                      alt="sender"
+                      width="40"
+                      height="40"
+                    />
+                    <div class="text-muted small text-nowrap mt-2">
+                      {{ message.createdAt | date : "short" }}
                     </div>
                   </div>
+                  <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                    <div class="font-weight-bold mb-1">You</div>
+                    {{ message.content }}
+                  </div>
+                </div>
 
+                <div
+                  class="chat-message-left pb-4"
+                  *ngIf="message.sender.id !== currentUserID"
+                >
                   <div
-                    class="chat-message-left pb-4"
-                    *ngIf="message.sender.id !== currentUserID"
+                    class="d-flex flex-column justify-content-center align-items-center"
                   >
-                    <div>
-                      <img
-                        [src]="
-                          message.sender.photo
-                            ? rootUrl +
-                              '/user/' +
-                              message.sender.id +
-                              '/' +
-                              message.sender.photo
-                            : '../../assets/placeholder-image.jpg'
-                        "
-                        class="rounded-circle mr-1"
-                        alt="receiver"
-                        width="40"
-                        height="40"
-                      />
-                      <div class="text-muted small text-nowrap mt-2">
-                        {{ message.createdAt | date : "short" }}
-                      </div>
-                    </div>
-                    <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
-                      <div class="font-weight-bold mb-1">
-                        {{ message.sender.username }}
-                      </div>
-                      {{ message.content }}
+                    <img
+                      [src]="
+                        message.sender.photo
+                          ? rootUrl +
+                            '/user/' +
+                            message.sender.id +
+                            '/' +
+                            message.sender.photo
+                          : '../../assets/placeholder-image.jpg'
+                      "
+                      class="rounded-circle mr-1"
+                      alt="receiver"
+                      width="40"
+                      height="40"
+                    />
+                    <div class="text-muted small text-nowrap mt-2">
+                      {{ message.createdAt | date : "short" }}
                     </div>
                   </div>
-                </ng-container>
+                  <div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+                    <div class="font-weight-bold mb-1">
+                      {{ message.sender.username }}
+                    </div>
+                    {{ message.content }}
+                  </div>
+                </div>
               </ng-container>
             </div>
           </div>

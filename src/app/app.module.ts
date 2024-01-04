@@ -34,6 +34,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { ChatComponent } from './chat/chat.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { FriendFilterPipe } from './pipes/friend-filter.pipe';
 
 const config: SocketIoConfig = { url: 'http://localhost:3500', options: {} };
 
@@ -47,6 +48,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3500', options: {} };
     LibSingleFileUploadComponent,
     SantizerPipe,
     ChatComponent,
+    FriendFilterPipe,
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3500', options: {} };
       progressAnimation: 'increasing',
       tapToDismiss: true,
       timeOut: 3000,
-      positionClass: 'toast-top-center',
+      positionClass: 'toast-top-right',
     }),
     MatDialogModule,
     HttpClientModule,

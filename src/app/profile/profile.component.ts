@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit {
         FileType: 'IMAGE',
         BlobFile: '',
       };
-    }, 1000);
+    }, 1);
   }
 
   id: number = 0;
@@ -76,22 +76,30 @@ export class ProfileComponent implements OnInit {
     tempModal.photo = this.UserPhoto.FileName;
     console.log(tempModal);
 
-    this._UserService.updateUser(tempModal).subscribe((res: any) => {
-      if (res) {
-        const { Table } = res;
-        this.toastr.success(res.message);
-        this._SessionStorage.setItem(SESSION_KEYS.UID, `${Table?.id || ''}`);
-        this._SessionStorage.setItem(
-          SESSION_KEYS.USER_NAME,
-          `${Table?.username || ''}`
-        );
-        this._SessionStorage.setItem(SESSION_KEYS.NAME, `${Table?.name || ''}`);
-        this._SessionStorage.setItem(
-          SESSION_KEYS.USER_PHOTO,
-          `${Table?.photo || ''}`
-        );
-        this._Router.navigate(['/dashboard']);
+    this._UserService.updateUser(tempModal).subscribe(
+      (res: any) => {
+        if (res) {
+          const { Table } = res;
+          this.toastr.success(res.message);
+          this._SessionStorage.setItem(SESSION_KEYS.UID, `${Table?.id || ''}`);
+          this._SessionStorage.setItem(
+            SESSION_KEYS.USER_NAME,
+            `${Table?.username || ''}`
+          );
+          this._SessionStorage.setItem(
+            SESSION_KEYS.NAME,
+            `${Table?.name || ''}`
+          );
+          this._SessionStorage.setItem(
+            SESSION_KEYS.USER_PHOTO,
+            `${Table?.photo || ''}`
+          );
+          this._Router.navigate(['/dashboard']);
+        }
+      },
+      (error: any) => {
+        this.toastr.error('Oops', error.error.message);
       }
-    });
+    );
   }
 }
