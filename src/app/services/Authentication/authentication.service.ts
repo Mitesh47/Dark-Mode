@@ -14,4 +14,8 @@ export class AuthenticationService {
   login(body: any) {
     return this._Http.post(`${this.rootUrl}/user/UserLogin`, body);
   }
+
+  register(body: any) {
+    return this._Http.post(`${this.rootUrl}/user/InsertUser`, body);
+  }
 }

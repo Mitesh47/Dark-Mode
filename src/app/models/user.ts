@@ -12,3 +12,9 @@ export class UserLogin {
   username!: string;
   password!: string;
 }
+
+export class UserRegister {
+  name!: string;
+  username!: string;
+  password!: string;
+}

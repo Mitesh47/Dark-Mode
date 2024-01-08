@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from '../../services/Authentication/authentication.service';
-import { UserLogin } from 'src/app/models/user';
+import { UserLogin, UserRegister } from 'src/app/models/user';
 import { SessionStorageService } from 'src/app/services/SessionStorage/session-storage.service';
 import { SESSION_KEYS } from 'src/app/models/constants';
 import { GlobalService } from 'src/app/services/Global/global.service';
@@ -92,6 +92,21 @@ export class LoginComponent {
 
   OnSignUp() {
     if (!this.validateForm()) return;
+    const tempModal = new UserRegister();
+    tempModal.name = this.name;
+    tempModal.username = this.username;
+    tempModal.password = this.password;
+    this._AuthService.register(tempModal).subscribe(
+      (res: any) => {
+        if (res) {
+          this.toastr.success(res.message);
+          this.toggleContainer();
+        }
+      },
+      (error: any) => {
+        this.toastr.error('Oops', error.error.message);
+      }
+    );
   }
 
   clearItems() {
